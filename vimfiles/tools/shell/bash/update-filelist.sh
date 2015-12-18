@@ -35,10 +35,18 @@ scan_folder()
     fi
 
     if test "$2" != ""; then
-        find $1 ${FIND_ARGS} ${FOLDER_ARGS} ${FILE_ARGS} > "${TMP}"
+        if [ $3 ]; then
+            find $1 ${FIND_ARGS} ${FOLDER_ARGS} ${FILE_ARGS} >> "${TMP}"
+        else
+            find $1 ${FIND_ARGS} ${FOLDER_ARGS} ${FILE_ARGS} > "${TMP}"
+        fi
         EXT="$1 ${FIND_ARGS} ${FOLDER_ARGS}"
     else
-        find $1 ${FIND_ARGS} ${FILE_ARGS} > "${TMP}"
+        if [ $3 ]; then
+            find $1 ${FIND_ARGS} ${FILE_ARGS} >> "${TMP}"
+        else
+            find $1 ${FIND_ARGS} ${FILE_ARGS} > "${TMP}"
+        fi
         EXT="$1 ${FIND_ARGS} ${FILE_ARGS}"
     fi
 
@@ -52,7 +60,8 @@ scan_folder()
 
 # first, scan the working directory
 # apply the folder filters defined by the user
-scan_folder "." "${FOLDERS}"
+# this will overwrite the existing file list
+scan_folder "." "${FOLDERS}" false
 
 # now scan all the additional folders
 # these are assumed to be out of the project tree
@@ -66,7 +75,8 @@ if [ -n "${ADDITIONAL_FOLDERS}" ]; then
         CUR_DIR="$(echo ${ADDITIONAL_FOLDERS} | awk "${AWK_CMD}")"
         if [ -n "${CUR_DIR}" ]; then
             # we ignore folder filters here
-            scan_folder "${CUR_DIR}"
+            # append new entries to the existing file list
+            scan_folder "${CUR_DIR}" "" true
             INDEX=$((${INDEX}+1))
         else
             break
