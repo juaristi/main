@@ -244,6 +244,12 @@ Plugin 'exvim/ex-colorschemes'
 " ---------------------------------------------------
 Plugin 'altercation/vim-colors-solarized'
 
+" vim-color-gruvbox
+" ---------------------------------------------------
+Plugin 'morhetz/gruvbox'
+
+" let g:gruvbox_contrast_dark = 'soft'
+
 " DISABLE: vim-airline makes Vim editing slow when there are too many buffers opened
 "          if you don't mind, and love this plugin, uncomment the script below
 "          to enable it
@@ -315,6 +321,7 @@ Plugin 'scrooloose/syntastic'
 
 " this will make html file by Angular.js ignore errors
 let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
+let g:syntastic_javascript_checkers = ['eslint']
 
 " DISABLE: use ex-autocomplpop instead
 " " neocomplcache: invoke when you insert words
@@ -454,11 +461,19 @@ Plugin 'mattn/emmet-vim'
 let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
 
-" vim-indent-guides: invoke by <leader>ig
-" ---------------------------------------------------
-Plugin 'nathanaelkane/vim-indent-guides'
+" DISABLE:
+" " vim-indent-guides: invoke by <leader>ig
+" " ---------------------------------------------------
+" Plugin 'nathanaelkane/vim-indent-guides'
+" let g:indent_guides_guide_size = 1
 
-let g:indent_guides_guide_size = 1
+" Yggdroot/indentLine: invoke by <leader>ig
+" ---------------------------------------------------
+
+Plugin 'Yggdroot/indentLine'
+nnoremap <unique> <leader>ig :IndentLinesToggle<CR>
+let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_enabled = 0
 
 " vim-javascript
 " ---------------------------------------------------
